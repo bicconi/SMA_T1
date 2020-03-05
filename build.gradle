@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+    id "org.sonarqube" version "2.7"
+}
+
+group 'Develop_T4_SMA'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile 'com.luckycatlabs:SunriseSunsetCalculator:1.2'
+}
+
+task wholeTest(type: Test, group: 'verification') {
+    useJUnit { }
+}
+
+jar{
+    manifest{
+        attributes 'Main-Class': 'Main'
+    }
+    from {
+        configurations.compile.collect {it.isDirectory()? it: zipTree(it)}
+    }
+}
